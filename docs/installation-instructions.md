@@ -18,6 +18,9 @@
    npm start
    ```
 
+4. **Install NodeJS/npm/npx**:
+   Follow the instructions on the [NodeJS official website](https://nodejs.org/) to install NodeJS, npm, and npx.
+
 ## Backend Setup
 
 1. **Navigate to the backend directory**:
@@ -40,6 +43,9 @@
    ```sh
    uvicorn main:app --reload
    ```
+
+5. **Install Python 3.12**:
+   Follow the instructions on the [Python official website](https://www.python.org/downloads/release/python-3120/) to install Python 3.12.
 
 ## Additional Notes
 

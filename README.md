@@ -76,3 +76,10 @@ Detailed documentation is available in the `docs/` directory, including:
 - Installation instructions
 - API specifications
 - Usage guidelines
+
+## Acknowledgements
+
+This project acknowledges the use of the following Code Generative AI tools and libraries:
+
+- **Code Generative AI Tools**: bolt.new, GitHub Copilot
+- **Libraries**: LangChain, DSPy.ai
