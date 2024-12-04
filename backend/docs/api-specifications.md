@@ -55,6 +55,29 @@ Creates a new item.
     }
     ```
 
+### POST /recognize-speech
+
+Recognizes speech from an audio file.
+
+- **URL**: `/recognize-speech`
+- **Method**: `POST`
+- **Request Body**:
+  - `Content-Type`: `multipart/form-data`
+  - **Example**:
+    ```sh
+    curl -X POST "http://localhost:8000/recognize-speech" -H "accept: application/json" -H "Content-Type: multipart/form-data" -F "file=@path_to_audio_file" -F "model=base"
+    ```
+- **Response**:
+  - `200 OK`: Returns the recognized speech transcript and language.
+  - `Content-Type`: `application/json`
+  - **Example**:
+    ```json
+    {
+      "transcript": "This is a sample transcript.",
+      "language": "en"
+    }
+    ```
+
 ## Usage
 
 To interact with the API, you can use tools like `curl`, Postman, or any HTTP client library in your preferred programming language. Below are some examples of how to use the API.
@@ -70,3 +93,13 @@ curl -X GET "http://localhost:8000/items" -H "accept: application/json"
 ```sh
 curl -X POST "http://localhost:8000/items" -H "accept: application/json" -H "Content-Type: application/json" -d '{"name":"New Item","description":"Description of the new item"}'
 ```
+
+### Example: Recognizing Speech
+
+```sh
+curl -X POST "http://localhost:8000/recognize-speech" -H "accept: application/json" -H "Content-Type: multipart/form-data" -F "file=@path_to_audio_file" -F "model=base"
+```
+
+## Further Documentation
+
+For further API documentation and testing, refer to the `/docs` endpoint provided by FastAPI.
