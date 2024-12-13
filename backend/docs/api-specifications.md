@@ -78,6 +78,35 @@ Recognizes speech from an audio file.
     }
     ```
 
+## MySQL Server Setup
+
+### Dockerfile
+
+The Dockerfile for setting up the MySQL server is located in the `backend/mysql` directory. It uses the MySQL image based on Alpine Linux and sets up the MySQL server with the specified data.
+
+### Environment Variables
+
+The following environment variables are used for configuring the MySQL container:
+
+- `MYSQL_ROOT_PASSWORD`: The password for the root user.
+- `MYSQL_DATABASE`: The name of a database to be created on container startup.
+- `MYSQL_USER`: The name of a user to be created on container startup.
+- `MYSQL_PASSWORD`: The password for the user specified by `MYSQL_USER`.
+
+### Running the MySQL Container
+
+To run the MySQL container, follow the instructions in the `backend/docs/installation-instructions.md` file.
+
+## Connecting to the MySQL Server
+
+### From Other Containers
+
+To connect to the MySQL server from other containers, use the IP address of the MySQL container. Refer to the `backend/docs/installation-instructions.md` file for detailed instructions.
+
+### From a Desktop Client
+
+To connect to the MySQL server from a desktop client, use the IP address of the MySQL container and the environment variables `MYSQL_USER` and `MYSQL_PASSWORD` for authentication. Refer to the `backend/docs/installation-instructions.md` file for detailed instructions.
+
 ## Usage
 
 To interact with the API, you can use tools like `curl`, Postman, or any HTTP client library in your preferred programming language. Below are some examples of how to use the API.
