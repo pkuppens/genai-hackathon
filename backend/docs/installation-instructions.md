@@ -81,3 +81,43 @@ Ensure all tests pass before deploying the application.
 
 For deployment, consider using a production-ready server like Gunicorn along with a reverse proxy like Nginx. Refer to the FastAPI deployment documentation for detailed instructions.
 
+## MySQL Docker Container Setup
+
+### Building the MySQL Docker Container
+
+1. **Navigate to the MySQL directory**:
+   ```sh
+   cd backend/mysql
+   ```
+
+2. **Build the Docker image**:
+   ```sh
+   docker build -t my-mysql-image .
+   ```
+
+### Running the MySQL Docker Container
+
+1. **Run the Docker container**:
+   ```sh
+   docker run --name my-mysql-container -d my-mysql-image
+   ```
+
+### Connecting to the MySQL Server from Other Containers
+
+1. **Get the IP address of the MySQL container**:
+   ```sh
+   docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' my-mysql-container
+   ```
+
+2. **Use the IP address to connect from other containers**:
+   Configure your application to use the IP address obtained in the previous step as the MySQL server address.
+
+### Connecting to the MySQL Server from a Desktop Client
+
+1. **Get the IP address of the MySQL container**:
+   ```sh
+   docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' my-mysql-container
+   ```
+
+2. **Use the IP address to connect from a desktop client**:
+   Open your MySQL desktop client and use the IP address obtained in the previous step as the MySQL server address. Use the environment variables `MYSQL_USER` and `MYSQL_PASSWORD` for authentication.
