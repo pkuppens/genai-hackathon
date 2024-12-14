@@ -1,0 +1,5 @@
+# Ignore all files in the current directory, except for the !specified files & directories
+*
+!mysql/Dockerfile
+!api
+!start.sh
