@@ -1,52 +1,31 @@
-# Use MySQL image based on Debian Linux as the base image
-FROM mysql:8.0-debian
+## Dockerfile for MySQL with OpenMRS data, based on conventions from the official MySQL image.
 
-# Set environment variables for MySQL container configuration
-# These variables act as defaults and can be overridden at runtime by passing different values
-# during container startup using the --env or --env-file option.
-# Example to override:
-#   docker run --env MYSQL_ROOT_PASSWORD=newpassword my-mysql-image
-#   OR
-#   docker run --env-file custom_env_file.env my-mysql-image
+# 1. Use MySQL 8.0 base image on Debian
+FROM mysql:8.0.40-debian
 
-# The following environment variables are defaults for the MySQL image to configure the MySQL server
+# 2. Set default environment variables for MySQL initialization
+#    These can be overridden at runtime.
 ENV MYSQL_ROOT_PASSWORD=rootpassword
 ENV MYSQL_DATABASE=mydatabase
 ENV MYSQL_USER=myuser
 ENV MYSQL_PASSWORD=mypassword
 
-# Install wget and clean up apt cache to reduce image size
-RUN apt-get update && apt-get install -y wget dos2unix uvicorn \
-    && rm -rf /var/lib/apt/lists/*
+# 3. Retrieve the SQL file and place it into the init directory
+#    The official MySQL entrypoint runs all *.sql files here at startup.
+USER root
 
-# Download the SQL data file, extract it, and place it in the init directory
-# This SQL file will be executed when the container initializes the database
-RUN wget -O /docker-entrypoint-initdb.d/large-demo-data-2-2-1.sql.gz https://openmrs.atlassian.net/wiki/download/attachments/26273323/large-demo-data-2-2-1.sql.gz?api=v2 \
-    && gunzip /docker-entrypoint-initdb.d/large-demo-data-2-2-1.sql.gz
+RUN apt-get update && apt-get install -y wget && rm -rf /var/lib/apt/lists/*
 
-# Copy the API directory into the container
-# Note: This expects the docker build command to be started from the "backend" directory
-# Example build command:
-#   cd backend
-#   docker build -t my-mysql-image -f mysql/Dockerfile .
-COPY ./api /app/api
+RUN wget -q -O /docker-entrypoint-initdb.d/large-demo-data-2-2-1.sql.gz \
+    "https://openmrs.atlassian.net/wiki/download/attachments/26273323/large-demo-data-2-2-1.sql.gz?api=v2" \
+    && gunzip /docker-entrypoint-initdb.d/large-demo-data-2-2-1.sql.gz \
+    && chown mysql:mysql /docker-entrypoint-initdb.d/large-demo-data-2-2-1.sql
 
-WORKDIR /app
+# 4. Switch back to mysql user (optional, as the entrypoint might handle it)
+USER mysql
 
-COPY start.sh /app/start.sh
-RUN dos2unix /app/start.sh
-RUN chmod +x /app/start.sh
-
-# Copy the requirements.txt file into the container
-COPY requirements.txt /app/requirements.txt
-
-# Install FastAPI and SQLAlchemy packages using pip
-RUN pip install -y --no-cache-dir -r /app/requirements.txt
-
-# Expose MySQL default port for external connections
+# 5. Expose MySQL port
 EXPOSE 3306
 
-# Define the command to initialize MySQL and start the FastAPI server
-# The "start.sh" script must handle both the MySQL server initialization
-# and any API-related startup logic
-CMD ["sh", "/app/start.sh"]
+# 6. No need to redefine CMD. The base image already sets the CMD and entrypoint
+#    to run `mysqld` and initialize the database from /docker-entrypoint-initdb.d/.

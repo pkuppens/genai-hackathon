@@ -3,3 +3,4 @@
 !mysql/Dockerfile
 !api
 !start.sh
+!requirements.txt
