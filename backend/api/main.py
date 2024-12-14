@@ -1,3 +1,4 @@
+import logging
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from typing import List
@@ -19,11 +20,15 @@ items = []
 
 @app.on_event("startup")
 async def startup():
+    logging.info("Startup event is starting.")
     await database.connect()
+    logging.info("Startup event has completed.")
 
 @app.on_event("shutdown")
 async def shutdown():
+    logging.info("Shutdown event is starting.")
     await database.disconnect()
+    logging.info("Shutdown event has completed.")
 
 @app.get("/items", response_model=List[Item])
 async def get_items():

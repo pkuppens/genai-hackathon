@@ -25,5 +25,8 @@ done
 # Apply the SQL script if it exists
 apply_sql_script
 
-# Start the FastAPI application
-uvicorn api.main:app --host 0.0.0.0 --port 8000
+# Start the FastAPI application with error handling
+echo "Starting FastAPI application..."
+if ! uvicorn api.main:app --host 0.0.0.0 --port 8000; then
+    echo "Error: Failed to start FastAPI application"
+fi

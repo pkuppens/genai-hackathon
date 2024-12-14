@@ -37,6 +37,12 @@ COPY start.sh /app/start.sh
 RUN dos2unix /app/start.sh
 RUN chmod +x /app/start.sh
 
+# Copy the requirements.txt file into the container
+COPY requirements.txt /app/requirements.txt
+
+# Install FastAPI and SQLAlchemy packages using pip
+RUN pip install -y --no-cache-dir -r /app/requirements.txt
+
 # Expose MySQL default port for external connections
 EXPOSE 3306
 
