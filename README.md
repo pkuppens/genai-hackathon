@@ -1,6 +1,8 @@
 # genai-hackathon
 Code for the 2024 GenAI Works Hackathon #BuildWithAI
 
+__While I did some preparations in this repo, during the Hackathon I unfortunately got the flew so I could not participate__
+
 ## Project Overview
 
 This project is designed to facilitate the creation, submission, and management of generative AI prompts and their templates. It consists of a frontend built with React and TypeScript, and a backend that includes API endpoints, language model implementations, request handling, data management, security, and comprehensive documentation.
